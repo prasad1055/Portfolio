@@ -1,0 +1,51 @@
+%% Module / component decomposition (Mermaid)
+flowchart LR
+  subgraph Root["App Shell"]
+    main["src/main.tsx<br/>React root mount"]
+    app["src/App.tsx<br/>Providers + Router"]
+  end
+
+  subgraph Pages["Pages (Routes)"]
+    index["src/pages/Index.tsx<br/>Portfolio page composition"]
+    nf["src/pages/NotFound.tsx<br/>Catch-all route"]
+  end
+
+  subgraph Portfolio["Portfolio Feature Modules"]
+    nav["Navbar.tsx"]
+    hero["HeroSection.tsx"]
+    about["AboutSection.tsx"]
+    edu["EducationSection.tsx"]
+    skills["SkillsSection.tsx"]
+    projects["ProjectsSection.tsx"]
+    opp["OpportunitiesSection.tsx"]
+    contact["ContactSection.tsx<br/>EmailJS integration"]
+    footer["Footer.tsx"]
+  end
+
+  subgraph UI["Reusable UI + Infra"]
+    uiatoms["src/components/ui/*<br/>shadcn-ui components"]
+    hooks["src/hooks/*<br/>use-toast, use-mobile"]
+    lib["src/lib/utils.ts<br/>cn() helper"]
+    styles["src/index.css<br/>Tailwind tokens + utilities"]
+  end
+
+  main --> app
+  app --> index
+  app --> nf
+  index --> nav & hero & about & edu & skills & projects & opp & contact & footer
+
+  nav --> styles
+  hero --> styles
+  about --> styles
+  edu --> styles
+  skills --> styles
+  projects --> styles
+  opp --> styles
+  contact --> styles
+  footer --> styles
+
+  index --> uiatoms
+  app --> uiatoms
+  app --> hooks
+  uiatoms --> lib
+  hooks --> uiatoms

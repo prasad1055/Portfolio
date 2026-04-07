@@ -1,0 +1,28 @@
+%% Architecture diagram (Mermaid)
+%% Render: paste into any Mermaid viewer or embed in Markdown via ```mermaid
+flowchart TB
+  user([User / Browser])
+  cdn[(Static Hosting / CDN)]
+  vite[Vite Build Output<br/>Static Assets]
+  spa[React SPA<br/>Vite + TS]
+  router[React Router<br/>Routes]
+  sections[Portfolio Sections<br/>Hero/About/Education/Skills/Projects/Opportunities/Contact/Footer]
+  ui[UI System<br/>shadcn-ui + Radix Primitives + Tailwind]
+  state[Client State<br/>React hooks]
+  rq[React Query<br/>QueryClientProvider]
+  toast[Notifications<br/>shadcn Toast + Sonner]
+  emailjs[EmailJS Browser SDK]
+  emailapi[(EmailJS Service)]
+  mail[(Email Delivery / Email Provider)]
+
+  user -->|HTTPS GET| cdn --> vite --> spa
+  spa --> router --> sections
+  sections --> ui
+  sections --> state
+  spa --> rq
+  spa --> toast
+  sections -->|Contact form submit| emailjs -->|API call| emailapi --> mail
+
+  %% Non-functional concerns
+  classDef nf fill:#0b1220,stroke:#38bdf8,color:#e2e8f0;
+  class ui,rq,toast,state nf;
